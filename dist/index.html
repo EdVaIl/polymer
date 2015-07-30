@@ -1,0 +1,12 @@
+<!doctype html><html><head><title>Polymer Problem</title><script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script><link rel="import" href="/bower_components/paper-tabs/paper-tabs.html"></head><body><template is="dom-bind" id="app"><template is="dom-repeat" items="[[items]]"><div>[[item]]</div></template><paper-tabs scrollable=""><template is="dom-repeat" items="[[items]]"><paper-tab>[[item]]</paper-tab></template></paper-tabs></template><script>
+      (function(document) {
+        'use strict';
+        var app = document.querySelector('#app');
+        app.addEventListener('dom-change', function() {
+          app.items=['square','circle','pillow','triangle'];
+        });
+        window.addEventListener('WebComponentsReady', function() {
+          app.splice('items',2,1,'line');
+        });
+      })(document);
+    </script></body></html>

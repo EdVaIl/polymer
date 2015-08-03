@@ -2,10 +2,12 @@
 <html>
   <head>
     <title>iron-list-scroll-problem</title>
-    <script src="https://rawgit.com/edvail/polymer/master/dist/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <!-- will be replaced with https://rawgit.com/edvail/polymer/master/dist/elements/elements.vulcanized.html -->
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="elements/elements.html">
-    <!-- endreplace-->
+    <!--
+    <script src="https://rawgit.com/edvail/polymer/master/dist/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://rawgit.com/edvail/polymer/master/dist/elements/elements.vulcanized.html">
+    -->
   </head>
   <body unresolved class="fullbleed layout vertical">
     <template is="dom-bind" id="app">
@@ -36,14 +38,14 @@
             </div>
           </div>
         </paper-toolbar>
-        <div id="problem">
-          <iron-list items="[[people]]" as="item">
+        <div id="problem" class="fullbleed layout vertical">
+          <iron-list items="[[people]]" as="item" class="flex">
             <template>
               <paper-item>
                 <paper-item-body three-line>
                   <div><span>[[item.fname]]</span> <span>[[item.lname]]</span></div>
                   <div secondary><span>[[item.address]]</span> <span>[[item.city]]</span></div>
-                  <div secondary><span>[[item.city]]</span>, <span>[[item.state]]</span>  <span>[[item.zip]]</span></div>
+                  <div secondary><span>[[index]]</span>: <span>[[item.city]]</span>, <span>[[item.state]]</span>  <span>[[item.zip]]</span></div>
                 </paper-item-body>
                 <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>
               </paper-item>

@@ -1,33 +1,56 @@
 <!doctype html>
 <html>
   <head>
-    <title>paper-tabs-splicing-problem</title>
-    <meta name="description" content="When array item is removed and another one is added in one splice on model array, paper-tabs just removes removed item from DOM without adding a new one.">
-    <script src="https://rawgit.com/EdVaIl/polymer/master/dist/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="https://rawgit.com/EdVaIl/polymer/master/dist/bower_components/paper-tabs/paper-tabs.html">
+    <title>iron-list-scroll-problem</title>
+    <script src="https://rawgit.com/edvail/polymer/master/dist/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <!-- will be replaced with https://rawgit.com/edvail/polymer/master/dist/elements/elements.vulcanized.html -->
+    <link rel="import" href="elements/elements.html">
+    <!-- endreplace-->
   </head>
-  <body>
+  <body unresolved class="fullbleed layout vertical">
     <template is="dom-bind" id="app">
-      <template is="dom-repeat" items="[[items]]">
-        <div>[[item]]</div>
-      </template>
-      <paper-tabs scrollable>
-        <template is="dom-repeat" items="[[items]]">
-          <paper-tab>[[item]]</paper-tab>
-        </template>
-      </paper-tabs>
+      <iron-ajax id="get_filltext_ajax" auto
+        url="//www.filltext.com/"
+        params='{"rows": "1000", "fname":"{firstName}", "lname": "{lastName}", "address": "{streetAddress}",
+        "city": "{city}", "state": "{usState|abb}", "zip": "{zip}", "integer": "{number|100}",
+        "business": "{business}", "index": "{index}"}'
+        handle-as="json"
+        loading="{{loading}}"
+        last-response="{{people}}">
+      </iron-ajax>
+      <paper-scroll-header-panel class="flex" condenses keep-condensed-header>
+        <paper-toolbar class="tall">
+          <paper-icon-button icon="arrow-back"></paper-icon-button>
+          <div class="flex"></div>
+          <paper-icon-button icon="search"></paper-icon-button>
+          <paper-icon-button icon="refresh" on-tap="refreshData"></paper-icon-button>
+          <paper-icon-button icon="more-vert"></paper-icon-button>
+
+          <div class="middle middle-container center horizontal layout">
+            <div class="title">iron-list & filltext.com</div>
+          </div>
+          <div class="bottom bottom-container center horizontal layout">
+            <div class="bottom-title">
+              <span class="length">Rows: <span>{{people.length}}</span></span>
+              <paper-spinner active="{{loading}}"></paper-spinner>
+            </div>
+          </div>
+        </paper-toolbar>
+        <div id="problem">
+          <iron-list items="[[people]]" as="item">
+            <template>
+              <paper-item>
+                <paper-item-body three-line>
+                  <div><span>[[item.fname]]</span> <span>[[item.lname]]</span></div>
+                  <div secondary><span>[[item.address]]</span> <span>[[item.city]]</span></div>
+                  <div secondary><span>[[item.city]]</span>, <span>[[item.state]]</span>  <span>[[item.zip]]</span></div>
+                </paper-item-body>
+                <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>
+              </paper-item>
+            </template>
+          </iron-list>
+        </div>
+      </paper-scroll-header-panel>
     </template>
-    <script>
-      (function(document) {
-        'use strict';
-        var app = document.querySelector('#app');
-        app.addEventListener('dom-change', function() {
-          app.items=['square','circle','pillow','triangle'];
-        });
-        window.addEventListener('WebComponentsReady', function() {
-          app.splice('items',2,1,'line');
-        });
-      })(document);
-    </script>
   </body>
 </html>
